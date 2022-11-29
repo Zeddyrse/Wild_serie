@@ -8,14 +8,23 @@ use App\Entity\Category;
 
 class CategoryFixtures extends Fixture
 {
+    public const CATEGORIES = [
+        'Action',
+        'Aventure',
+        'Animation',
+        'Fantastique',
+        'Horreur',
+
+    ];
+
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 50; $i++) {  
-            $category = new Category();  
-            $category->setName('categories_' . $i);  
-            $manager->persist($category);  
-        }  
-
+        foreach (self::CATEGORIES as $categoryName) {
+            $category = new Category();
+            $category->setName($categoryName);
+            $manager->persist($category);
+            $this->addReference('category_' . $categoryName, $category);
+        }
 
         $manager->flush();
     }
